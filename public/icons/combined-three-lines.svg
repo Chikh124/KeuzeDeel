@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <!-- Три червоні полоски -->
+  <g transform="translate(8, 8)">
+    <!-- Перша полоска -->
+    <path d="M0 41.1547L12.7723 8.47607C14.5722 3.87099 19.011 0.840088 23.9553 0.840088H31.6556L18.8832 33.5188C17.0834 38.1238 12.6446 41.1547 7.70025 41.1547H0Z" fill="url(#grad1)" transform="scale(0.6) translate(0, -10)"/>
+    <!-- Друга полоска -->
+    <path d="M0.737549 41.1548L13.5097 8.47608C15.3097 3.871 19.7484 0.840088 24.6928 0.840088H32.3931L19.6207 33.5188C17.8208 38.1239 13.3821 41.1548 8.43783 41.1548H0.737549Z" fill="url(#grad2)" transform="scale(0.6) translate(5, -10)"/>
+    <!-- Третя полоска -->
+    <path d="M0.476074 41.1548L13.2484 8.47608C15.0482 3.871 19.4871 0.840088 24.4314 0.840088H32.1316L19.3593 33.5188C17.5595 38.1239 13.1206 41.1548 8.17635 41.1548H0.476074Z" fill="url(#grad3)" transform="scale(0.6) translate(10, -10)"/>
+  </g>
+  <defs>
+    <linearGradient id="grad1" x1="69.1318" y1="-2.23925" x2="0" y2="36.8164" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF5CAA"/>
+      <stop offset="1" stop-color="#FF4E62"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="51.1318" y1="-2.23935" x2="-18" y2="36.8163" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF5CAA"/>
+      <stop offset="1" stop-color="#FF4E62"/>
+    </linearGradient>
+    <linearGradient id="grad3" x1="32.1318" y1="-2.23935" x2="-37" y2="36.8163" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF5CAA"/>
+      <stop offset="1" stop-color="#FF4E62"/>
+    </linearGradient>
+  </defs>
+</svg>
+

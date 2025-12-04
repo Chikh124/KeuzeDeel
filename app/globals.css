@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+body {
+  color: var(--foreground);
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Animated gradient orb - кружочок що рухається */
+@keyframes orb-float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translate(20px, -20px) scale(1.05) rotate(5deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(-15px, 15px) scale(0.95) rotate(-5deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translate(15px, 20px) scale(1.02) rotate(3deg);
+  }
+}
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes orb-pulse {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animated-gradient-orb {
+  background: radial-gradient(
+    circle at center,
+    rgba(59, 130, 246, 1) 0%,
+    rgba(59, 130, 246, 0.95) 5%,
+    rgba(139, 92, 246, 0.9) 12%,
+    rgba(236, 72, 153, 0.85) 22%,
+    rgba(245, 158, 11, 0.8) 35%,
+    rgba(139, 92, 246, 0.6) 50%,
+    rgba(236, 72, 153, 0.4) 65%,
+    rgba(245, 158, 11, 0.25) 78%,
+    rgba(59, 130, 246, 0.12) 88%,
+    rgba(139, 92, 246, 0.05) 95%,
+    rgba(236, 72, 153, 0.02) 98%,
+    transparent 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-rotate 8s ease infinite, orb-float 20s ease-in-out infinite, orb-pulse 4s ease-in-out infinite;
+  filter: blur(50px);
+  will-change: transform, background-position, opacity;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: normal;
+}
+
+
+/* Fade in animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Pulse animation */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Animated logos carousel */
+@keyframes scroll-logos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.logos-carousel {
+  overflow: hidden;
+  position: relative;
+}
+
+.logos-track {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  animation: scroll-logos 40s linear infinite;
+  width: fit-content;
+}
+
+.logo-item {
+  color: #9ca3af;
+  font-size: 1.125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .logos-track {
+    gap: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .logos-track {
+    gap: 5rem;
+  }
+}
+
+/* Animated logos rows - три ряди каруселей */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-33.333%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 50s linear infinite;
+  width: fit-content;
+  display: flex;
+  will-change: transform;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 50s linear infinite;
+  width: fit-content;
+  display: flex;
+  will-change: transform;
+}
+
+/* Маска для плавного переходу іконок - робить краї прозорими з обох сторін */
+.integrations-row {
+  position: relative;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 3%,
+    rgba(0, 0, 0, 0.3) 6%,
+    rgba(0, 0, 0, 0.5) 9%,
+    rgba(0, 0, 0, 0.7) 12%,
+    rgba(0, 0, 0, 0.85) 15%,
+    black 18%,
+    black 82%,
+    rgba(0, 0, 0, 0.85) 85%,
+    rgba(0, 0, 0, 0.7) 88%,
+    rgba(0, 0, 0, 0.5) 91%,
+    rgba(0, 0, 0, 0.3) 94%,
+    rgba(0, 0, 0, 0.1) 97%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 3%,
+    rgba(0, 0, 0, 0.3) 6%,
+    rgba(0, 0, 0, 0.5) 9%,
+    rgba(0, 0, 0, 0.7) 12%,
+    rgba(0, 0, 0, 0.85) 15%,
+    black 18%,
+    black 82%,
+    rgba(0, 0, 0, 0.85) 85%,
+    rgba(0, 0, 0, 0.7) 88%,
+    rgba(0, 0, 0, 0.5) 91%,
+    rgba(0, 0, 0, 0.3) 94%,
+    rgba(0, 0, 0, 0.1) 97%,
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+/* Приховування скролбару для горизонтального скролу */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
