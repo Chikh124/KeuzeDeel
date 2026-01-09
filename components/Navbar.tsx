@@ -24,16 +24,16 @@ export default function Navbar() {
   }, [isMenuOpen])
 
   const menuItems = [
-    { label: 'Home', href: '#' },
+    { label: 'Home', href: '/' },
     { label: 'Features', href: '#features' },
     { label: 'Integrations', href: '#integrations' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: 'Pricing', href: '/pricing' },
   ]
 
   const supportItems = [
     { label: 'Customer Support', href: '#' },
     { label: 'Technical Assistance', href: '#' },
-    { label: 'Sales Inquiries', href: '#' },
+    { label: 'Sales Inquiries', href: '/contact' },
   ]
 
   return (
@@ -41,38 +41,40 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           {/* Valaam Logo */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <motion.a
+            href="/"
             className="flex items-center gap-2 text-xl font-bold text-gray-900"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500"></div>
+            <div 
+              className="w-8 h-8 rounded-full"
+              style={{
+                background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95) 0%, rgba(230, 220, 255, 0.9) 15%, rgba(196, 181, 253, 0.8) 30%, rgba(139, 92, 246, 0.9) 60%, rgba(124, 58, 237, 1) 77%, rgba(109, 40, 217, 1) 100%)'
+              }}
+            ></div>
             <span>Valaam</span>
-          </motion.button>
+          </motion.a>
 
           {/* Menu Button */}
           <div className="menu-container relative">
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors"
+              className="flex items-center gap-2 text-gray-700 transition-colors"
             >
-              <span className="text-base font-medium">Menu</span>
+              <span className="text-lg font-medium">Menu</span>
               <svg
-                width="20"
-                height="20"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
                 className={`transition-transform duration-300 ${
                   isMenuOpen ? 'rotate-180' : ''
                 }`}
               >
-                <line x1="3" y1="12" x2="21" y2="12" />
                 <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="12" x2="21" y2="12" />
               </svg>
             </motion.button>
 
@@ -80,15 +82,6 @@ export default function Navbar() {
             <AnimatePresence>
               {isMenuOpen && (
                 <>
-                  {/* Backdrop */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
-                  />
-
                   {/* Menu Dropdown */}
                   <motion.div
                     initial={{ opacity: 0, x: 20, scale: 0.95 }}

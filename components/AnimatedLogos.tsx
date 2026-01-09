@@ -1,5 +1,40 @@
 'use client'
 
+import { useState } from 'react'
+
+function LogoItem({ logo, index }: { logo: { name: string; iconUrl: string }, index: number }) {
+  const [imageError, setImageError] = useState(false)
+  
+  return (
+    <div
+      key={`${logo.name}-${index}`}
+      className="logo-item flex items-center gap-4"
+    >
+      {/* Логотип через img для реальних іконок */}
+      <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center flex-shrink-0">
+        {!imageError ? (
+          <img 
+            src={logo.iconUrl} 
+            alt={logo.name}
+            className="w-full h-full object-contain grayscale opacity-30 hover:opacity-100 transition-opacity"
+            onError={() => setImageError(true)}
+            loading="lazy"
+          />
+        ) : (
+          // Fallback - показуємо першу літеру назви в колі
+          <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center grayscale opacity-30 hover:opacity-100 transition-opacity">
+            <span className="text-xs md:text-sm font-semibold text-gray-600">
+              {logo.name.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
+      </div>
+      {/* Назва */}
+      <span className="text-base md:text-lg grayscale opacity-30 hover:opacity-100 transition-opacity">{logo.name}</span>
+    </div>
+  )
+}
+
 export default function AnimatedLogos() {
   const logos = [
     { 
@@ -46,25 +81,7 @@ export default function AnimatedLogos() {
         <div className="logos-carousel">
           <div className="logos-track">
             {duplicatedLogos.map((logo, index) => (
-              <div
-                key={`${logo.name}-${index}`}
-                className="logo-item flex items-center gap-3"
-              >
-                {/* Логотип через img для реальних іконок */}
-                <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                  <img 
-                    src={logo.iconUrl} 
-                    alt={logo.name}
-                    className="w-6 h-6 object-contain opacity-60"
-                    onError={(e) => {
-                      // Fallback якщо іконка не завантажиться
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                </div>
-                {/* Назва */}
-                <span>{logo.name}</span>
-              </div>
+              <LogoItem key={`${logo.name}-${index}`} logo={logo} index={index} />
             ))}
           </div>
         </div>

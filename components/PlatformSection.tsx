@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export default function PlatformSection() {
   const ref = useRef(null)
@@ -95,11 +96,13 @@ export default function PlatformSection() {
                     {steps[activeIndex].title}
                   </div>
                 ) : (
-                  <img
+                  <Image
                     src={steps[activeIndex].image}
                     alt={steps[activeIndex].title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                     loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     onError={(e) => {
                       console.error('Image failed to load:', steps[activeIndex].image)
                       setImageError((prev) => {
@@ -107,9 +110,6 @@ export default function PlatformSection() {
                         newErrors[activeIndex] = true
                         return newErrors
                       })
-                    }}
-                    onLoad={() => {
-                      console.log('Image loaded:', steps[activeIndex].image)
                     }}
                   />
                 )}

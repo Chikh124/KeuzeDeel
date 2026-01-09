@@ -10,12 +10,13 @@ export default function Pricing() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
+  // Плани з цінами для Monthly / Yearly як на референсних скрінах
   const plans = [
     {
       name: 'Basic',
       tagline: 'Perfect for individuals and small projects.',
-      price: 99,
-      period: isYearly ? 'yearly' : 'monthly',
+      monthlyPrice: 110,
+      yearlyPrice: 99,
       features: [
         'All analytics features',
         'Up to 250,000 tracked visits',
@@ -27,9 +28,10 @@ export default function Pricing() {
     },
     {
       name: 'Pro',
-      tagline: 'Unlock enhanced AI capabilities, priority support, and weekly updates.',
-      price: 199,
-      period: isYearly ? 'yearly' : 'monthly',
+      tagline:
+        'Unlock enhanced AI capabilities, priority support, and weekly updates.',
+      monthlyPrice: 210,
+      yearlyPrice: 199,
       features: [
         'All analytics features',
         'Up to 1,000,000 tracked visits',
@@ -42,8 +44,8 @@ export default function Pricing() {
     {
       name: 'Enterprise',
       tagline: 'Access the full suite of AI features, 24/7 dedicated support.',
-      price: 399,
-      period: isYearly ? 'yearly' : 'monthly',
+      monthlyPrice: 410,
+      yearlyPrice: 399,
       features: [
         'All analytics features',
         'Up to 5,000,000 tracked visits',
@@ -58,38 +60,43 @@ export default function Pricing() {
   const planLabels = ['For individuals', 'For startups', 'For big companies']
 
   return (
-    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-white" ref={ref}>
+    <section
+      id="pricing"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-[#f6f6f6]"
+      ref={ref}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-center"
+          className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-center leading-tight"
         >
-          Flexible and Transparent Pricing for Teams of all sizes
+          Flexible and Transparent Pricing
+          <br />
+          for Teams of all sizes
         </motion.h2>
 
-        <div className="flex justify-center items-center gap-4 mt-8 mb-12">
-          <button
-            onClick={() => setIsYearly(false)}
-            className={`px-6 py-2 rounded-lg transition ${
-              !isYearly
-                ? 'bg-black text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setIsYearly(true)}
-            className={`px-6 py-2 rounded-lg transition ${
-              isYearly
-                ? 'bg-black text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            Yearly
-          </button>
+        {/* Тумблер Monthly / Yearly – квадратні кнопки як на референсі */}
+        <div className="flex justify-center items-center mt-8 mb-12">
+          <div className="inline-flex bg-[#f0f0f0] p-1 rounded-xl gap-1">
+            <button
+              onClick={() => setIsYearly(false)}
+              className={`min-w-[110px] px-6 py-2 text-sm font-medium rounded-md transition-all ${
+                !isYearly ? 'bg-black text-white shadow-sm' : 'bg-transparent text-gray-700'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setIsYearly(true)}
+              className={`min-w-[110px] px-6 py-2 text-sm font-medium rounded-md transition-all ${
+                isYearly ? 'bg-black text-white shadow-sm' : 'bg-transparent text-gray-700'
+              }`}
+            >
+              Yearly
+            </button>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -100,42 +107,85 @@ export default function Pricing() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
               whileHover={{ scale: 1.02 }}
-              className={`bg-white p-8 rounded-2xl ${
+              className={`rounded-3xl p-8 transition-shadow flex flex-col ${
                 plan.popular
-                  ? 'border-2 border-blue-500 shadow-xl scale-105'
-                  : 'border border-gray-200'
+                  ? 'bg-gradient-to-b from-[#3b3b3b] to-black text-white shadow-2xl scale-105'
+                  : 'bg-white border border-gray-200 shadow-sm text-gray-900'
               }`}
             >
               <div className="mb-4">
-                <span className="text-sm text-gray-600">{planLabels[index]}</span>
+                <span
+                  className={`text-sm ${
+                    plan.popular ? 'text-white/80' : 'text-gray-600'
+                  }`}
+                  style={plan.popular ? { boxShadow: '0px 4px 12px 0px rgba(0, 0, 0, 0.15)' } : {}}
+                >
+                  {planLabels[index]}
+                </span>
               </div>
               
-              <h3 className="text-3xl font-bold text-gray-900 mb-2">
-                {plan.name}
-              </h3>
+              <div className="mb-2">
+                <h3
+                  className={`font-bold inline-block ${
+                    plan.popular
+                      ? 'text-white text-[2.1rem]' // трохи більший білий заголовок для Pro
+                      : 'text-gray-900 text-3xl'
+                  }`}
+                >
+                  {plan.name}
+                </h3>
+                {plan.popular && (
+                  <span className="inline-flex items-center px-4 py-1 bg-white/15 text-white border border-white/40 rounded-full text-xs font-medium ml-3 align-middle">
+                    Popular
+                  </span>
+                )}
+              </div>
               
-              {plan.popular && (
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium mb-4">
-                  Popular
-                </span>
-              )}
+              <p
+                className={`mb-6 text-sm min-h-[3rem] ${
+                  plan.popular ? 'text-gray-200' : 'text-gray-600'
+                }`}
+              >
+                {plan.tagline}
+              </p>
               
-              <p className="text-gray-600 mb-6">{plan.tagline}</p>
-              
-              <div className="mb-6">
-                <span className="text-5xl font-bold text-gray-900">${plan.price}</span>
-                <span className="text-gray-600 ml-2">/{plan.period}</span>
+              <div className="mb-6 min-h-[4rem] flex items-end">
+                <div className="relative">
+                  <motion.span
+                    key={isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className="text-5xl font-bold inline-block"
+                  >
+                    ${isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                  </motion.span>
+                  <span
+                    className={`ml-2 text-base ${
+                      plan.popular ? 'text-gray-200' : 'text-gray-600'
+                    }`}
+                  >
+                    /monthly
+                  </span>
+                </div>
               </div>
 
               <div className="mb-8">
-                <p className="text-sm font-semibold text-gray-900 mb-4">
+                <p
+                  className={`text-sm font-semibold mb-4 ${
+                    plan.popular ? 'text-white' : 'text-gray-900'
+                  }`}
+                >
                   What&apos;s included
                 </p>
                 <ul className="space-y-3">
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start">
                       <svg
-                        className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0"
+                        className={`w-5 h-5 mr-2 mt-0.5 flex-shrink-0 ${
+                          plan.popular ? 'text-green-400' : 'text-green-500'
+                        }`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -147,7 +197,11 @@ export default function Pricing() {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      <span className="text-gray-600">{feature}</span>
+                      <span
+                        className={plan.popular ? 'text-gray-200' : 'text-gray-600'}
+                      >
+                        {feature}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -156,8 +210,8 @@ export default function Pricing() {
               <button
                 className={`w-full py-3 rounded-lg font-semibold transition ${
                   plan.popular
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-gray-900 text-white hover:bg-gray-800'
+                    ? 'bg-white text-black hover:bg-gray-100'
+                    : 'bg-black text-white hover:bg-gray-900'
                 }`}
               >
                 {plan.cta}
@@ -165,7 +219,11 @@ export default function Pricing() {
               
               <a
                 href="#"
-                className="block text-center text-gray-600 hover:text-gray-900 mt-4 text-sm"
+                className={`block text-center mt-4 text-sm ${
+                  plan.popular
+                    ? 'text-gray-300 hover:text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 Learn More
               </a>

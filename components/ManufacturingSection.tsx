@@ -4,12 +4,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
-}
+import Image from 'next/image'
 
 const slides = [
   {
@@ -36,80 +31,95 @@ export default function ManufacturingSection() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
 
   useEffect(() => {
+    if (!isInView) return // Завантажуємо GSAP тільки коли секція в viewport
+    
     const section = sectionRef.current
     const slidesContainer = slidesContainerRef.current
 
     if (!section || !slidesContainer) return
 
-    // Отримуємо ширину одного слайду (100vw)
-    const slideWidth = window.innerWidth
-    const totalWidth = slideWidth * slides.length
+    // Dynamic import GSAP тільки коли потрібен
+    Promise.all([
+      import('gsap'),
+      import('gsap/ScrollTrigger')
+    ]).then(([gsapModule, scrollTriggerModule]) => {
+      const gsap = gsapModule.gsap
+      const ScrollTrigger = scrollTriggerModule.ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger)
 
-    // Встановлюємо ширину контейнера слайдів
-    gsap.set(slidesContainer, {
-      width: `${totalWidth}px`,
-    })
+      // Отримуємо ширину одного слайду (100vw)
+      const slideWidth = window.innerWidth
+      const totalWidth = slideWidth * slides.length
 
-    // Розраховуємо end так, щоб презентація закінчувалась одразу після останнього слайду
-    const sectionHeight = section.offsetHeight || 600
-    // Скорочена відстань скролу для швидкого переходу до наступної секції без затримки
-    const scrollDistance = sectionHeight * (slides.length - 1) * 0.75
-
-    let scrollTrigger: ScrollTrigger | null = null
-
-    // Створюємо анімацію горизонтального скролу
-    const scrollTween = gsap.to(slidesContainer, {
-      xPercent: -100 * (slides.length - 1), // Завершуємо на останньому слайді без половинки
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: () => `+=${scrollDistance}`,
-        pin: true,
-        scrub: 1.5, // Плавний скрол, щоб не переходити одразу на наступний слайд
-        anticipatePin: 1,
-        pinSpacing: true,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const progress = self.progress
-          // Розраховуємо поточний слайд на основі прогресу
-          const exactSlideIndex = progress * (slides.length - 1)
-          const slideIndex = Math.min(
-            Math.floor(exactSlideIndex),
-            slides.length - 1
-          )
-          setCurrentSlide(slideIndex)
-        },
-        onEnter: () => {
-          // Переконаємось що контент видимий
-          if (slidesContainer) {
-            slidesContainer.style.visibility = 'visible'
-          }
-        },
-      },
-    })
-
-    scrollTrigger = scrollTween.scrollTrigger || null
-
-    // Обробка ресайзу
-    const handleResize = () => {
-      ScrollTrigger.refresh()
-    }
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      if (scrollTrigger) {
-        scrollTrigger.kill()
-      }
-      scrollTween.kill()
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars && trigger.vars.trigger === section) {
-          trigger.kill()
-        }
+      // Встановлюємо ширину контейнера слайдів
+      gsap.set(slidesContainer, {
+        width: `${totalWidth}px`,
       })
-      window.removeEventListener('resize', handleResize)
-    }
-  }, []) // Прибрав currentSlide з залежностей
+
+      // Розраховуємо end так, щоб презентація закінчувалась рівно на останньому слайді
+      // і не було довгого пустого фону після неї
+      const sectionHeight = section.offsetHeight || 600
+      // Скрол закінчується рівно після останнього слайду без зайвого простору
+      const scrollDistance = sectionHeight * (slides.length - 1)
+
+      let scrollTrigger: typeof ScrollTrigger | null = null
+
+      // Створюємо анімацію горизонтального скролу
+      const scrollTween = gsap.to(slidesContainer, {
+        // Керуємо тим, де закінчується презентація по горизонталі.
+        // Презентація закінчується на повному русі, щоб не було пустого фону
+        xPercent: -100 * (slides.length - 1),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${scrollDistance}`,
+          pin: true,
+          scrub: 1.2, // Плавний, але без великої інерції — прокрут контролюється коліщатком
+          anticipatePin: 1,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const progress = self.progress
+            // Розраховуємо поточний слайд на основі прогресу
+            const exactSlideIndex = progress * (slides.length - 1)
+            const slideIndex = Math.min(
+              Math.floor(exactSlideIndex),
+              slides.length - 0.01
+            )
+            setCurrentSlide(slideIndex)
+          },
+          onEnter: () => {
+            // Переконаємось що контент видимий
+            if (slidesContainer) {
+              slidesContainer.style.visibility = 'visible'
+            }
+          },
+        },
+      })
+
+      scrollTrigger = scrollTween.scrollTrigger || null
+
+      // Обробка ресайзу
+      const handleResize = () => {
+        ScrollTrigger.refresh()
+      }
+      window.addEventListener('resize', handleResize)
+
+      return () => {
+        if (scrollTrigger) {
+          scrollTrigger.kill()
+        }
+        scrollTween.kill()
+        ScrollTrigger.getAll().forEach((trigger) => {
+          if (trigger.vars && trigger.vars.trigger === section) {
+            trigger.kill()
+          }
+        })
+        window.removeEventListener('resize', handleResize)
+      }
+    })
+  }, [isInView]) // Завантажуємо GSAP тільки коли секція в viewport
 
   return (
     <section ref={sectionRef} className="relative py-12 md:py-16 bg-white overflow-hidden">
@@ -119,7 +129,7 @@ export default function ManufacturingSection() {
       </div>
 
       <div className="relative z-10 h-[500px] md:h-[600px] flex items-center">
-        <div className="overflow-hidden w-full h-full">
+        <div className="overflow-hidden w-full h-full" style={{ transform: 'rotate(360deg)' }}>
           <div ref={slidesContainerRef} className="flex h-full">
             {slides.map((slide, index) => (
               <div
@@ -156,11 +166,13 @@ export default function ManufacturingSection() {
                   className="relative z-10"
                 >
                   <div className="relative w-full h-[250px] md:h-[350px] rounded-lg overflow-hidden bg-gray-100">
-                    <img
+                    <Image
                       src={`/images/${slide.image}`}
                       alt={slide.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                       loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement
                         target.style.display = 'none'
