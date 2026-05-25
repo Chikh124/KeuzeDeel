@@ -1,5 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Bricolage_Grotesque, Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const bricolage = Bricolage_Grotesque({
@@ -14,37 +15,63 @@ const inter = Inter({
   display: 'swap',
 })
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://valaam.example.com'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#ffffff',
+}
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Valaam - Algorithm Training Infrastructure',
+    default: 'Valaam — Algorithm Training Infrastructure',
     template: '%s | Valaam',
   },
-  description: 'At Valaam, we leverage the game-changing potency of Machine Learning to reshape understanding. Our ground-breaking tech opens unlimited potential across a range of sectors.',
-  keywords: ['Machine Learning', 'AI', 'ML Platform', 'Algorithm Training', 'Data Analytics', 'AI Solutions'],
-  authors: [{ name: 'Goran Babarogic' }],
-  creator: 'Goran Babarogic',
+  description:
+    'Valaam is an algorithm training infrastructure that helps ML practitioners track, scale and ship machine learning models faster — from experiment to production.',
+  keywords: [
+    'Machine Learning Platform',
+    'Algorithm Training Infrastructure',
+    'MLOps',
+    'AI Infrastructure',
+    'Model Tracking',
+    'Data Analytics',
+    'AI Solutions',
+  ],
+  authors: [{ name: 'Valaam Team' }],
+  creator: 'Valaam',
   publisher: 'Valaam',
+  applicationName: 'Valaam',
+  category: 'technology',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://valaam.framer.website',
+    url: '/',
     siteName: 'Valaam',
-    title: 'Valaam - Algorithm Training Infrastructure',
-    description: 'At Valaam, we leverage the game-changing potency of Machine Learning to reshape understanding.',
+    title: 'Valaam — Algorithm Training Infrastructure',
+    description:
+      'Valaam helps ML practitioners track, scale and ship machine learning models faster — from experiment to production.',
     images: [
       {
-        url: '/favicon.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Valaam',
+        alt: 'Valaam — Algorithm Training Infrastructure',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Valaam - Algorithm Training Infrastructure',
-    description: 'At Valaam, we leverage the game-changing potency of Machine Learning to reshape understanding.',
-    images: ['/favicon.png'],
+    title: 'Valaam — Algorithm Training Infrastructure',
+    description:
+      'Track, scale and ship machine learning models faster with Valaam.',
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
@@ -57,15 +84,31 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
-  },
-  metadataBase: new URL('https://valaam.framer.website'),
-  other: {
-    'dns-prefetch': 'https://cdn.simpleicons.org',
-  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Valaam',
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon`,
+      sameAs: [
+        'https://twitter.com/valaam',
+        'https://github.com/valaam',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'Valaam',
+      publisher: { '@id': `${SITE_URL}/#organization` },
+      inLanguage: 'en-US',
+    },
+  ],
 }
 
 export default function RootLayout({
@@ -79,7 +122,15 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
         <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <Script
+          id="ld-json-organization"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </body>
     </html>
   )
 }

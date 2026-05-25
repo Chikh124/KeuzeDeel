@@ -9,17 +9,20 @@ import Image from 'next/image'
 const slides = [
   {
     title: 'Manufacturing Efficiency',
-    description: 'By streamlining operations, increasing production, and opening the path for a new era of manufacturing excellence, VisionIQ\'s cutting-edge AI solutions can revolutionize the efficiency of the manufacturing industry.',
+    description:
+      "By streamlining operations, increasing production, and opening the path for a new era of manufacturing excellence, Valaam's cutting-edge AI solutions can revolutionize the efficiency of the manufacturing industry.",
     image: 'manufacturing.png',
   },
   {
-    title: 'Manufacturing Efficiency',
-    description: 'Using AI-driven solutions from VisionIQ, which expertly optimize consumer experiences, empower businesses, and open the door to extraordinary success, you may see the amazing change of the retail industry.',
+    title: 'Retail Transformation',
+    description:
+      'Using AI-driven solutions from Valaam, which expertly optimize consumer experiences, empower businesses, and open the door to extraordinary success, you may see the amazing change of the retail industry.',
     image: 'manufacturing_02.png',
   },
   {
-    title: 'Manufacturing Efficiency',
-    description: 'Embrace the future of urban living with VisionIQ\'s smart urban solutions. Our advanced AI technologies create efficient, sustainable, and connected cities, enhancing the quality of life for all residents.',
+    title: 'Smart Urban Living',
+    description:
+      "Embrace the future of urban living with Valaam's smart urban solutions. Our advanced AI technologies create efficient, sustainable, and connected cities, enhancing the quality of life for all residents.",
     image: 'manufacturing_03.png',
   },
 ]
@@ -31,41 +34,36 @@ export default function ManufacturingSection() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
 
   useEffect(() => {
-    if (!isInView) return // Завантажуємо GSAP тільки коли секція в viewport
-    
+    // Only load and initialise GSAP once the section is in the viewport to keep the initial bundle small.
+    if (!isInView) return
+
     const section = sectionRef.current
     const slidesContainer = slidesContainerRef.current
 
     if (!section || !slidesContainer) return
 
-    // Dynamic import GSAP тільки коли потрібен
     Promise.all([
       import('gsap'),
-      import('gsap/ScrollTrigger')
+      import('gsap/ScrollTrigger'),
     ]).then(([gsapModule, scrollTriggerModule]) => {
       const gsap = gsapModule.gsap
       const ScrollTrigger = scrollTriggerModule.ScrollTrigger
       gsap.registerPlugin(ScrollTrigger)
 
-      // Отримуємо ширину одного слайду (100vw)
       const slideWidth = window.innerWidth
       const totalWidth = slideWidth * slides.length
 
-      // Встановлюємо ширину контейнера слайдів
       gsap.set(slidesContainer, {
         width: `${totalWidth}px`,
       })
 
-      // Довжина пінованої лінії скролу. Множник керує тим, наскільки "повільно" відчувається скрол:
-      // більше значення = довше треба прокручувати, щоб пройти всі слайди = повільніший перехід.
+      // Length of the pinned scroll track. A larger multiplier makes the horizontal scroll feel slower.
       const sectionHeight = section.offsetHeight || 600
       const scrollDistance = sectionHeight * (slides.length - 1) * 1.2
 
-      let scrollTrigger: typeof ScrollTrigger | null = null
-
-      // Створюємо анімацію горизонтального скролу
-      // Використовуємо `x` у пікселях замість `xPercent`, бо xPercent рахується від ВЛАСНОЇ ширини контейнера
-      // (= slides.length * 100vw), що призводить до перекручування і пустого простору в кінці.
+      // We translate the container by an absolute pixel value rather than xPercent, because
+      // xPercent is relative to the container's own width (= slides.length * 100vw) which can
+      // introduce a small visual gap on the last slide.
       const scrollTween = gsap.to(slidesContainer, {
         x: () => -(slides.length - 1) * window.innerWidth,
         ease: 'none',
@@ -74,22 +72,20 @@ export default function ManufacturingSection() {
           start: 'top top',
           end: () => `+=${scrollDistance}`,
           pin: true,
-          scrub: 2, // Більше згладжування — слайди змінюються повільніше та плавніше
+          scrub: 2,
           anticipatePin: 1,
           pinSpacing: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress
-            // Розраховуємо поточний слайд на основі прогресу
             const exactSlideIndex = progress * (slides.length - 1)
             const slideIndex = Math.min(
               Math.floor(exactSlideIndex),
-              slides.length - 0.01
+              slides.length - 0.01,
             )
             setCurrentSlide(slideIndex)
           },
           onEnter: () => {
-            // Переконаємось що контент видимий
             if (slidesContainer) {
               slidesContainer.style.visibility = 'visible'
             }
@@ -97,9 +93,8 @@ export default function ManufacturingSection() {
         },
       })
 
-      scrollTrigger = scrollTween.scrollTrigger || null
+      const scrollTrigger = scrollTween.scrollTrigger ?? null
 
-      // Обробка ресайзу
       const handleResize = () => {
         ScrollTrigger.refresh()
       }
@@ -118,24 +113,24 @@ export default function ManufacturingSection() {
         window.removeEventListener('resize', handleResize)
       }
     })
-  }, [isInView]) // Завантажуємо GSAP тільки коли секція в viewport
+  }, [isInView])
 
   return (
     <section ref={sectionRef} className="relative py-12 md:py-16 bg-white overflow-hidden">
-      {/* Animated gradient orb на фоні - залишається після скролу */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] md:w-[400px] md:h-[400px] rounded-full animated-gradient-orb opacity-50" />
+      {/* Decorative gradient orb that stays in place behind the slides. */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-full animated-gradient-orb opacity-50 -translate-x-1/2 -translate-y-1/2" />
       </div>
 
-      <div className="relative z-10 h-[500px] md:h-[600px] flex items-center">
-        <div className="overflow-hidden w-full h-full" style={{ transform: 'rotate(360deg)' }}>
+      <div className="relative z-10 min-h-[500px] md:h-[600px] flex items-center">
+        <div className="overflow-hidden w-full h-full">
           <div ref={slidesContainerRef} className="flex h-full">
             {slides.map((slide, index) => (
               <div
                 key={index}
                 className="flex-shrink-0 w-screen h-full grid md:grid-cols-2 gap-6 md:gap-8 items-center px-4 sm:px-6 lg:px-8"
               >
-                {/* Текст зліва */}
+                {/* Left column: text content for the active slide. */}
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -157,7 +152,7 @@ export default function ManufacturingSection() {
                   </Link>
                 </motion.div>
 
-                {/* Фото справа */}
+                {/* Right column: slide illustration. */}
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}

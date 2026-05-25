@@ -1,54 +1,52 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
+import Image from 'next/image'
+import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
 export default function Integrations() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
-  // Список всіх SVG файлів
-  const allIcons = [
-    'svgexport-37.svg',
-    'Group.svg',
-    'svgexport-39.svg',
-    'svgexport-45.svg',
-    'svgexport-46.svg',
-    'combined-three-lines.svg',
-    'svgexport-64.svg',
-    'svgexport-65.svg',
-    'Frame.svg',
-    'svgexport-86.svg',
-    'svgexport-113.svg',
-    'svgexport-114.svg',
-    'svgexport-186.svg',
-    'svgexport-188.svg',
-    'svgexport-222.svg',
+  // Each entry pairs an SVG filename with a human-readable label so screen readers
+  // get a meaningful alt for every integration logo.
+  const allIcons: { file: string; name: string }[] = [
+    { file: 'svgexport-37.svg', name: 'Google' },
+    { file: 'Group.svg', name: 'Slack' },
+    { file: 'svgexport-39.svg', name: 'GitHub' },
+    { file: 'svgexport-45.svg', name: 'AWS' },
+    { file: 'svgexport-46.svg', name: 'Microsoft Azure' },
+    { file: 'combined-three-lines.svg', name: 'Notion' },
+    { file: 'svgexport-64.svg', name: 'Figma' },
+    { file: 'svgexport-65.svg', name: 'Linear' },
+    { file: 'Frame.svg', name: 'Vercel' },
+    { file: 'svgexport-86.svg', name: 'Stripe' },
+    { file: 'svgexport-113.svg', name: 'Discord' },
+    { file: 'svgexport-114.svg', name: 'Zoom' },
+    { file: 'svgexport-186.svg', name: 'Hugging Face' },
+    { file: 'svgexport-188.svg', name: 'Kaggle' },
+    { file: 'svgexport-222.svg', name: 'TensorFlow' },
   ]
 
-  // Розподіляємо по трьох рядах рівномірно
   const itemsPerRow = Math.ceil(allIcons.length / 3)
   const logosRow1 = allIcons.slice(0, itemsPerRow)
   const logosRow2 = allIcons.slice(itemsPerRow, itemsPerRow * 2)
   const logosRow3 = allIcons.slice(itemsPerRow * 2)
 
-  // Подвоюємо для безперервної каруселі
+  // Duplicate the row contents three times so the CSS-driven carousel can loop seamlessly.
   const duplicatedRow1 = [...logosRow1, ...logosRow1, ...logosRow1]
   const duplicatedRow2 = [...logosRow2, ...logosRow2, ...logosRow2]
   const duplicatedRow3 = [...logosRow3, ...logosRow3, ...logosRow3]
 
-  const LogoItem = ({ iconPath }: { iconPath: string }) => (
-    <div className="w-16 h-16 md:w-18 md:h-18 flex items-center justify-center flex-shrink-0">
-      <img
-        src={`/icons/${iconPath}`}
-        alt=""
+  const LogoItem = ({ icon }: { icon: { file: string; name: string } }) => (
+    <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center flex-shrink-0">
+      <Image
+        src={`/icons/${icon.file}`}
+        alt={`${icon.name} logo`}
+        width={64}
+        height={64}
         className="w-full h-full object-contain"
         loading="lazy"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement
-          target.style.display = 'none'
-        }}
       />
     </div>
   )
@@ -65,7 +63,7 @@ export default function Integrations() {
           <span className="text-gray-900">Versatile</span>{' '}
           <span className="text-orange-500">Integrations</span>
         </motion.h2>
-        
+
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -79,31 +77,31 @@ export default function Integrations() {
           <div className="relative overflow-hidden">
             <div className="flex gap-6 md:gap-8 animate-scroll-left integrations-row">
               {duplicatedRow1.map((icon, index) => (
-                <LogoItem key={`row1-${index}`} iconPath={icon} />
+                <LogoItem key={`row1-${index}`} icon={icon} />
               ))}
             </div>
-            <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
           </div>
 
           <div className="relative overflow-hidden">
             <div className="flex gap-6 md:gap-8 animate-scroll-right integrations-row">
               {duplicatedRow2.map((icon, index) => (
-                <LogoItem key={`row2-${index}`} iconPath={icon} />
+                <LogoItem key={`row2-${index}`} icon={icon} />
               ))}
             </div>
-            <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
           </div>
 
           <div className="relative overflow-hidden">
             <div className="flex gap-6 md:gap-8 animate-scroll-left integrations-row">
               {duplicatedRow3.map((icon, index) => (
-                <LogoItem key={`row3-${index}`} iconPath={icon} />
+                <LogoItem key={`row3-${index}`} icon={icon} />
               ))}
             </div>
-            <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
           </div>
         </div>
       </div>

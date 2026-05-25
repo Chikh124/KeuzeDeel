@@ -35,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated gradient orb - кружочок що рухається */
+/* Animated gradient orb — small floating circle used as a background accent. */
 @keyframes orb-float {
   0%, 100% {
     transform: translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg);
@@ -125,7 +125,7 @@ body {
 }
 
 
-/* Framer-style conic gradient orb — 3 шари, кожен зі своєю швидкістю/напрямком */
+/* Framer-style conic gradient orb — 3 stacked layers, each rotating at its own speed and direction. */
 @keyframes framer-orb-spin-1 {
   0%   { transform: translate(-50%, -50%) perspective(1200px) rotate(91.8deg); }
   100% { transform: translate(-50%, -50%) perspective(1200px) rotate(451.8deg); }
@@ -169,7 +169,7 @@ body {
   will-change: transform;
 }
 
-/* Шар 1: великий насичений rainbow conic з сильним блюром */
+/* Layer 1: largest layer, saturated rainbow conic gradient with heavy blur. */
 .framer-orb-1 {
   filter: blur(90px);
   animation: framer-orb-spin-1 28s linear infinite;
@@ -189,7 +189,7 @@ body {
   transform: scale(0.9029);
 }
 
-/* Шар 2: середній — білий/блакитний/рожевий */
+/* Layer 2: middle layer, white/blue/pink conic gradient with medium blur. */
 .framer-orb-2 {
   filter: blur(48px);
   animation: framer-orb-spin-2 22s linear infinite;
@@ -205,7 +205,7 @@ body {
   transform: scale(0.8591);
 }
 
-/* Шар 3: верхній блакитний conic з режимом змішування */
+/* Layer 3: top layer, light blue conic with a screen blend mode for highlight glow. */
 .framer-orb-3 {
   filter: blur(44px);
   animation: framer-orb-spin-3 18s linear infinite;
@@ -254,7 +254,7 @@ body {
   transform: scale(0.8048);
 }
 
-/* Shimmer button — біла лінія, що пробігає по чорній кнопці */
+/* Shimmer button — a white highlight line that sweeps across the dark CTA button. */
 @keyframes shimmer-sweep {
   0% {
     transform: translateX(-150%) skewX(-20deg);
@@ -378,7 +378,7 @@ body {
   }
 }
 
-/* Animated logos rows - три ряди каруселей */
+/* Animated logos rows — three infinite carousel rows on the integrations section. */
 @keyframes scroll-left {
   0% {
     transform: translateX(0);
@@ -411,7 +411,7 @@ body {
   will-change: transform;
 }
 
-/* Маска для плавного переходу іконок - робить краї прозорими з обох сторін */
+/* Mask fade so the carousel edges fade to transparent on both sides. */
 .integrations-row {
   position: relative;
   mask-image: linear-gradient(
@@ -454,7 +454,7 @@ body {
   -webkit-mask-repeat: no-repeat;
 }
 
-/* Приховування скролбару для горизонтального скролу */
+/* Hide native scrollbars on horizontal scroll containers. */
 .scrollbar-hide {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */

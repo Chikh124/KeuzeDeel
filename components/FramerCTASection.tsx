@@ -11,18 +11,19 @@ export default function FramerCTASection() {
 
   return (
     <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-gray-100" ref={ref}>
-      {/* Framer-style conic gradient orb — 3 шари обертаються з різним блюром і кольором */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center" style={{ overflow: 'visible' }}>
+      {/* Framer-style conic gradient orb — 3 stacked layers rotating at different speeds and blurs. */}
+      <div
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        style={{ overflow: 'visible' }}
+        aria-hidden="true"
+      >
         <div className="framer-orb-stack">
-          {/* Шар 1: великий насичений conic з сильним блюром (rainbow) */}
           <div className="framer-orb framer-orb-1">
             <div className="framer-orb-inner framer-orb-inner-1" />
           </div>
-          {/* Шар 2: середній з білим/блакитним/рожевим */}
           <div className="framer-orb framer-orb-2">
             <div className="framer-orb-inner framer-orb-inner-2" />
           </div>
-          {/* Шар 3: верхній блакитний conic, з режимом змішування */}
           <div className="framer-orb framer-orb-3">
             <div className="framer-orb-inner framer-orb-inner-3" />
           </div>
@@ -30,7 +31,6 @@ export default function FramerCTASection() {
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
-        {/* Заголовок */}
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -44,7 +44,7 @@ export default function FramerCTASection() {
           </span>
         </motion.h2>
 
-        {/* Кнопка з анімацією */}
+        {/* Animated shimmer CTA button. */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -62,7 +62,7 @@ export default function FramerCTASection() {
             <span className="relative z-10">Get Custom Solution</span>
           </motion.a>
 
-          {/* Текст з аватаром */}
+          {/* Schedule-a-call helper text with avatar. */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -79,12 +79,12 @@ export default function FramerCTASection() {
                 sizes="32px"
                 loading="lazy"
                 onError={(e) => {
-                  // Fallback якщо зображення не завантажиться
                   const target = e.target as HTMLImageElement
                   target.style.display = 'none'
                   const parent = target.parentElement
                   if (parent) {
-                    parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500"></div>'
+                    parent.innerHTML =
+                      '<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500"></div>'
                   }
                 }}
               />

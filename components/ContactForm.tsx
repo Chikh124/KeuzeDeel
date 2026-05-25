@@ -24,19 +24,19 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Тут можна додати логіку відправки форми
-    console.log('Form submitted:', formData)
+    // Form submission would be handled by a backend service or 3rd-party form provider.
+    // The form data is intentionally not logged in production.
   }
 
   return (
     <section className="relative py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-[#fafafa] overflow-hidden" ref={ref}>
-      {/* Framer spinning orb — blue tones */}
+      {/* Decorative spinning orb with blue tones, scaled responsively per breakpoint. */}
       <div
         className="absolute inset-0 pointer-events-none flex items-center justify-center"
         style={{ overflow: 'visible' }}
         aria-hidden="true"
       >
-        <div className="framer-orb-stack" style={{ width: '600px', height: '600px' }}>
+        <div className="framer-orb-stack w-[320px] h-[320px] sm:w-[480px] sm:h-[480px] md:w-[600px] md:h-[600px]">
           <div className="framer-orb framer-orb-1">
             <div className="framer-orb-inner contact-framer-orb-inner-1" />
           </div>
@@ -50,27 +50,24 @@ export default function ContactForm() {
       </div>
 
       <div className="max-w-3xl mx-auto relative z-10">
-        {/* Heading */}
-        <motion.h2
+        <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 mb-6 text-center leading-tight"
+          className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 mb-6 text-center leading-tight"
         >
           Contact our friendly team
-        </motion.h2>
+        </motion.h1>
 
-        {/* Description */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base md:text-lg text-gray-600 text-center mb-14 max-w-xl mx-auto leading-relaxed"
         >
-          Feel free to reach out using the contact form below or via the provided contact information. We&apos;ll respond promptly to ensure you have a seamless and enjoyable experience engaging with VisionIQ. Let&apos;s connect and bring your AI aspirations to life!
+          Feel free to reach out using the contact form below or via the provided contact information. We&apos;ll respond promptly to ensure you have a seamless and enjoyable experience engaging with Valaam. Let&apos;s connect and bring your AI aspirations to life!
         </motion.p>
 
-        {/* Форма без білого контейнера */}
         <motion.form
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

@@ -1,13 +1,21 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import ContactForm from '@/components/ContactForm'
 import FAQ from '@/components/FAQ'
 import FramerCTASection from '@/components/FramerCTASection'
 import Footer from '@/components/Footer'
-import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Us - Valaam',
-  description: 'Contact our friendly team at Valaam. Feel free to reach out using the contact form or via the provided contact information. We\'ll respond promptly to ensure you have a seamless experience.',
+  title: 'Contact',
+  description:
+    'Contact our friendly team at Valaam. Reach out via the contact form or our support channels — we respond promptly to keep your ML initiatives on track.',
+  alternates: { canonical: '/contact' },
+  openGraph: {
+    title: 'Contact | Valaam',
+    description:
+      'Reach the Valaam team for sales, technical or customer support enquiries.',
+    url: '/contact',
+  },
 }
 
 export default function ContactPage() {

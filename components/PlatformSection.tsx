@@ -33,13 +33,13 @@ export default function PlatformSection() {
     },
   ]
 
-  // Автоматичне перемикання кожні 5 секунд з прогрес-баром
+  // Auto-advance to the next step every 5 seconds while filling a progress bar in the active panel.
   useEffect(() => {
     if (!isInView) return
 
     setProgress(0)
-    const duration = 5000 // 5 секунд
-    const interval = 50 // Оновлення кожні 50мс для плавності
+    const duration = 5000
+    const interval = 50
     const increment = 100 / (duration / interval)
 
     const progressInterval = setInterval(() => {
@@ -75,7 +75,7 @@ export default function PlatformSection() {
         </motion.h2>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
-          {/* Зображення зліва - компактне */}
+          {/* Compact illustration on the left, swaps with a fade animation on step change. */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -103,8 +103,7 @@ export default function PlatformSection() {
                     className="object-cover"
                     loading="lazy"
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    onError={(e) => {
-                      console.error('Image failed to load:', steps[activeIndex].image)
+                    onError={() => {
                       setImageError((prev) => {
                         const newErrors = [...prev]
                         newErrors[activeIndex] = true
@@ -117,7 +116,7 @@ export default function PlatformSection() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Список з описом справа */}
+          {/* Step list with descriptions on the right. */}
           <div className="space-y-8 md:space-y-10 flex flex-col justify-between h-full min-h-[320px] md:min-h-[380px]">
             {steps.map((step, index) => (
               <motion.div
@@ -155,11 +154,9 @@ export default function PlatformSection() {
                         <p className="text-gray-600 leading-relaxed text-xs md:text-sm">
                           {step.description}
                         </p>
-                        {/* Прогрес-бар під описом */}
+                        {/* Progress bar that fills while the step is active. */}
                         <div className="mt-3 relative">
-                          {/* Сірий фон */}
                           <div className="h-0.5 bg-gray-300 w-full absolute" />
-                          {/* Помаранчева/червона лінія що заповнюється */}
                           <motion.div
                             className="h-0.5 bg-orange-500 absolute top-0 left-0"
                             initial={{ width: 0 }}
@@ -169,7 +166,7 @@ export default function PlatformSection() {
                         </div>
                       </motion.div>
                     )}
-                    {/* Тонка сіра лінія для неактивних або без опису */}
+                    {/* Thin divider line for inactive steps. */}
                     {(!step.description || activeIndex !== index) && (
                       <div className="h-px bg-gray-300 w-full mt-2 flex-1" />
                     )}

@@ -10,39 +10,53 @@ export default function FAQ() {
 
   const faqs = [
     {
-      question: 'What AI solutions does VisionIQ offer?',
+      question: 'What AI solutions does Valaam offer?',
       answer:
-        'VisionIQ provides comprehensive AI solutions including machine learning infrastructure, automated candidate ranking, data analytics, and personalized content recommendations.',
+        'Valaam provides comprehensive AI solutions including machine learning infrastructure, automated candidate ranking, data analytics, and personalized content recommendations.',
     },
     {
-      question: "How to integrate VisionIQ's AI technologies?",
+      question: "How do I integrate Valaam's AI technologies?",
       answer:
         'Integration is simple — just add two lines of code to your notebook or script. Our platform automatically starts tracking code, hyperparameters, metrics, and more.',
     },
     {
-      question: 'Does VisionIQ support cloud platform integration?',
+      question: 'Does Valaam support cloud platform integration?',
       answer:
-        'Yes, VisionIQ seamlessly integrates with major cloud platforms including AWS, Google Cloud, and Azure, ensuring flexible deployment options.',
+        'Yes, Valaam seamlessly integrates with major cloud platforms including AWS, Google Cloud, and Azure, ensuring flexible deployment options.',
     },
     {
       question: 'Can I customize AI solutions for my industry?',
       answer:
-        'Absolutely! VisionIQ offers customizable AI solutions tailored to your specific industry needs, from manufacturing to retail and urban planning.',
+        'Absolutely! Valaam offers customizable AI solutions tailored to your specific industry needs, from manufacturing to retail and urban planning.',
     },
     {
       question: 'Any technical requirements for integration?',
       answer:
-        'VisionIQ requires minimal setup. Our platform is designed to work with your existing infrastructure and supports multiple programming languages and frameworks.',
+        'Valaam requires minimal setup. Our platform is designed to work with your existing infrastructure and supports multiple programming languages and frameworks.',
     },
     {
-      question: 'How does VisionIQ ensure compatibility?',
+      question: 'How does Valaam ensure compatibility?',
       answer:
-        'VisionIQ is built with compatibility in mind, supporting a wide range of tools and platforms. Our team ensures seamless integration with your existing tech stack.',
+        'Valaam is built with compatibility in mind, supporting a wide range of tools and platforms. Our team ensures seamless integration with your existing tech stack.',
     },
   ]
 
   const toggle = (index: number) => {
     setOpenIndex((current) => (current === index ? null : index))
+  }
+
+  // FAQPage structured data — improves rich-result eligibility on Google search.
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.answer,
+      },
+    })),
   }
 
   return (
@@ -51,6 +65,11 @@ export default function FAQ() {
       ref={ref}
       id="faq"
     >
+      <script
+        type="application/ld+json"
+        // FAQPage schema injected inline so it is part of the initial HTML payload.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
