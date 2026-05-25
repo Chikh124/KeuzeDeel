@@ -11,13 +11,26 @@ export default function FramerCTASection() {
 
   return (
     <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-gray-100" ref={ref}>
-      {/* Animated gradient orb - градієнтна куля на фоні, виходить трохи зверху */}
-      <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'visible' }}>
-        <div className="absolute top-[48%] left-1/2 w-[300px] h-[300px] md:w-[350px] md:h-[350px] rounded-full animated-gradient-orb" style={{ transform: 'translate(-50%, -50%)' }} />
+      {/* Framer-style conic gradient orb — 3 stacked layers rotating at different speeds and blurs. */}
+      <div
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        style={{ overflow: 'visible' }}
+        aria-hidden="true"
+      >
+        <div className="framer-orb-stack">
+          <div className="framer-orb framer-orb-1">
+            <div className="framer-orb-inner framer-orb-inner-1" />
+          </div>
+          <div className="framer-orb framer-orb-2">
+            <div className="framer-orb-inner framer-orb-inner-2" />
+          </div>
+          <div className="framer-orb framer-orb-3">
+            <div className="framer-orb-inner framer-orb-inner-3" />
+          </div>
+        </div>
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
-        {/* Заголовок */}
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -31,22 +44,25 @@ export default function FramerCTASection() {
           </span>
         </motion.h2>
 
-        {/* Кнопка з анімацією */}
+        {/* Animated shimmer CTA button. */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col items-center gap-6"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-lg text-base md:text-lg font-semibold transition-colors shadow-lg"
+          <motion.a
+            href="https://contra.com/babarogic/work"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            className="shimmer-button relative inline-flex items-center justify-center px-8 py-4 rounded-md text-base md:text-lg font-semibold text-white shadow-lg overflow-hidden"
           >
-            Get Custom Solution
-          </motion.button>
+            <span className="relative z-10">Get Custom Solution</span>
+          </motion.a>
 
-          {/* Текст з аватаром */}
+          {/* Schedule-a-call helper text with avatar. */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -63,12 +79,12 @@ export default function FramerCTASection() {
                 sizes="32px"
                 loading="lazy"
                 onError={(e) => {
-                  // Fallback якщо зображення не завантажиться
                   const target = e.target as HTMLImageElement
                   target.style.display = 'none'
                   const parent = target.parentElement
                   if (parent) {
-                    parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500"></div>'
+                    parent.innerHTML =
+                      '<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500"></div>'
                   }
                 }}
               />

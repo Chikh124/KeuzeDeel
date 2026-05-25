@@ -1,54 +1,64 @@
+import Link from 'next/link'
+
 export default function Footer() {
+  const currentYear = new Date().getFullYear()
+
   return (
     <footer className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Сіра полоска з логотипом по центру */}
+        {/* Centred brand mark sitting on top of a divider line. */}
         <div className="relative border-t border-gray-300 pt-8 mb-8">
           <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2">
-            <a
+            <Link
               href="/"
               className="flex items-center gap-2 bg-gray-100 px-4 text-xl font-bold text-gray-900"
             >
-              <div 
+              <div
                 className="w-8 h-8 rounded-full"
                 style={{
-                  background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95) 0%, rgba(230, 220, 255, 0.9) 15%, rgba(196, 181, 253, 0.8) 30%, rgba(139, 92, 246, 0.9) 60%, rgba(124, 58, 237, 1) 77%, rgba(109, 40, 217, 1) 100%)'
+                  background:
+                    'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95) 0%, rgba(230, 220, 255, 0.9) 15%, rgba(196, 181, 253, 0.8) 30%, rgba(139, 92, 246, 0.9) 60%, rgba(124, 58, 237, 1) 77%, rgba(109, 40, 217, 1) 100%)',
                 }}
-              ></div>
+                aria-hidden="true"
+              />
               <span>Valaam</span>
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Left - Copyright */}
           <div className="text-center md:text-left">
             <p className="text-gray-600 text-sm">
-              Nicey © 2023. Designed by Goran Babarogic
+              Valaam &copy; {currentYear}. All rights reserved.
             </p>
           </div>
 
-          {/* Center - Navigation Links */}
-          <div className="flex flex-wrap justify-center gap-6">
-            <a
-              href="#features"
+          <nav className="flex flex-wrap justify-center gap-6" aria-label="Footer">
+            <Link
+              href="/#features"
               className="text-gray-600 hover:text-gray-900 transition text-sm font-medium"
             >
               Features
-            </a>
-            <a
-              href="#integrations"
+            </Link>
+            <Link
+              href="/#integrations"
               className="text-gray-600 hover:text-gray-900 transition text-sm font-medium"
             >
               Integrations
-            </a>
-            <a
+            </Link>
+            <Link
               href="/pricing"
               className="text-gray-600 hover:text-gray-900 transition text-sm font-medium"
             >
               Pricing
-            </a>
-          </div>
+            </Link>
+            <Link
+              href="/contact"
+              className="text-gray-600 hover:text-gray-900 transition text-sm font-medium"
+            >
+              Contact
+            </Link>
+          </nav>
 
           {/* Right - Social Icons */}
           <div className="flex items-center gap-4">

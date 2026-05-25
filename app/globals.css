@@ -10,12 +10,13 @@
 body {
   color: var(--foreground);
   background: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-bricolage), var(--font-inter), sans-serif;
 }
 
 * {
@@ -34,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated gradient orb - кружочок що рухається */
+/* Animated gradient orb — small floating circle used as a background accent. */
 @keyframes orb-float {
   0%, 100% {
     transform: translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg);
@@ -96,6 +97,203 @@ body {
   contain: layout style paint;
 }
 
+/* Contact page orb — soft blue/purple gradient, matches reference photo */
+@keyframes contact-orb-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -20px, 0) scale(1.04);
+  }
+}
+
+.contact-orb {
+  width: 720px;
+  height: 720px;
+  max-width: 90vw;
+  max-height: 90vw;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 35%, rgba(99, 102, 241, 0.65) 0%, rgba(99, 102, 241, 0) 55%),
+    radial-gradient(circle at 70% 30%, rgba(129, 140, 248, 0.6) 0%, rgba(129, 140, 248, 0) 55%),
+    radial-gradient(circle at 50% 70%, rgba(167, 139, 250, 0.5) 0%, rgba(167, 139, 250, 0) 55%),
+    radial-gradient(circle at 50% 50%, rgba(147, 162, 255, 0.55) 0%, rgba(147, 162, 255, 0) 70%);
+  filter: blur(80px);
+  opacity: 0.95;
+  animation: contact-orb-drift 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+
+/* Framer-style conic gradient orb — 3 stacked layers, each rotating at its own speed and direction. */
+@keyframes framer-orb-spin-1 {
+  0%   { transform: translate(-50%, -50%) perspective(1200px) rotate(91.8deg); }
+  100% { transform: translate(-50%, -50%) perspective(1200px) rotate(451.8deg); }
+}
+@keyframes framer-orb-spin-2 {
+  0%   { transform: translate(-50%, -50%) perspective(1200px) rotate(135.96deg); }
+  100% { transform: translate(-50%, -50%) perspective(1200px) rotate(-224.04deg); }
+}
+@keyframes framer-orb-spin-3 {
+  0%   { transform: translate(-50%, -50%) perspective(1200px) rotate(196.32deg); }
+  100% { transform: translate(-50%, -50%) perspective(1200px) rotate(556.32deg); }
+}
+
+.framer-orb-stack {
+  position: relative;
+  width: 260px;
+  height: 260px;
+}
+
+@media (min-width: 768px) {
+  .framer-orb-stack {
+    width: 340px;
+    height: 340px;
+  }
+}
+
+.framer-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 500px;
+  will-change: transform;
+}
+
+.framer-orb-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* Layer 1: largest layer, saturated rainbow conic gradient with heavy blur. */
+.framer-orb-1 {
+  filter: blur(90px);
+  animation: framer-orb-spin-1 28s linear infinite;
+  transform: translate(-50%, -50%) perspective(1200px) rotate(91.8deg);
+}
+.framer-orb-inner-1 {
+  background: conic-gradient(
+    rgb(255, 0, 128) 0deg,
+    rgb(238, 0, 255) 54.89deg,
+    rgb(0, 166, 255) 106.7deg,
+    rgb(71, 151, 255) 162deg,
+    rgb(0, 68, 255) 252deg,
+    rgb(255, 128, 0) 306deg,
+    rgb(255, 0, 204) 360deg
+  );
+  opacity: 0.64;
+  transform: scale(0.9029);
+}
+
+/* Layer 2: middle layer, white/blue/pink conic gradient with medium blur. */
+.framer-orb-2 {
+  filter: blur(48px);
+  animation: framer-orb-spin-2 22s linear infinite;
+  transform: translate(-50%, -50%) perspective(1200px) rotate(135.96deg);
+}
+.framer-orb-inner-2 {
+  background: conic-gradient(
+    rgb(255, 255, 255) 0deg,
+    rgb(18, 180, 230) 180deg,
+    rgb(220, 76, 252) 360deg
+  );
+  opacity: 1;
+  transform: scale(0.8591);
+}
+
+/* Layer 3: top layer, light blue conic with a screen blend mode for highlight glow. */
+.framer-orb-3 {
+  filter: blur(44px);
+  animation: framer-orb-spin-3 18s linear infinite;
+  transform: translate(-50%, -50%) perspective(1200px) rotate(196.32deg);
+  mix-blend-mode: screen;
+}
+.framer-orb-inner-3 {
+  background: conic-gradient(
+    rgb(166, 239, 255) 0deg,
+    rgb(18, 173, 230) 180deg,
+    rgb(76, 99, 252) 360deg
+  );
+  opacity: 1;
+  transform: scale(0.8048);
+}
+
+/* Contact page — blue-only orb layers (override inner colors only) */
+.contact-framer-orb-inner-1 {
+  background: conic-gradient(
+    rgb(99, 102, 241) 0deg,
+    rgb(59, 130, 246) 90deg,
+    rgb(96, 165, 250) 162deg,
+    rgb(37, 99, 235) 252deg,
+    rgb(99, 102, 241) 360deg
+  );
+  opacity: 0.72;
+  transform: scale(0.9029);
+}
+.contact-framer-orb-inner-2 {
+  background: conic-gradient(
+    rgb(255, 255, 255) 0deg,
+    rgb(147, 197, 253) 120deg,
+    rgb(99, 102, 241) 240deg,
+    rgb(255, 255, 255) 360deg
+  );
+  opacity: 1;
+  transform: scale(0.8591);
+}
+.contact-framer-orb-inner-3 {
+  background: conic-gradient(
+    rgb(186, 230, 253) 0deg,
+    rgb(56, 189, 248) 180deg,
+    rgb(99, 102, 241) 360deg
+  );
+  opacity: 1;
+  transform: scale(0.8048);
+}
+
+/* Shimmer button — a white highlight line that sweeps across the dark CTA button. */
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.shimmer-button {
+  background-color: rgb(30, 21, 21);
+  isolation: isolate;
+  transition: background-color 0.2s ease;
+}
+
+.shimmer-button:hover {
+  background-color: rgb(45, 32, 32);
+}
+
+.shimmer-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 40%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.18) 60%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  animation: shimmer-sweep 2.8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
 
 /* Fade in animations */
 @keyframes fadeInUp {
@@ -180,7 +378,7 @@ body {
   }
 }
 
-/* Animated logos rows - три ряди каруселей */
+/* Animated logos rows — three infinite carousel rows on the integrations section. */
 @keyframes scroll-left {
   0% {
     transform: translateX(0);
@@ -213,7 +411,7 @@ body {
   will-change: transform;
 }
 
-/* Маска для плавного переходу іконок - робить краї прозорими з обох сторін */
+/* Mask fade so the carousel edges fade to transparent on both sides. */
 .integrations-row {
   position: relative;
   mask-image: linear-gradient(
@@ -256,7 +454,7 @@ body {
   -webkit-mask-repeat: no-repeat;
 }
 
-/* Приховування скролбару для горизонтального скролу */
+/* Hide native scrollbars on horizontal scroll containers. */
 .scrollbar-hide {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */

@@ -65,7 +65,7 @@ export default function MLPlatformSection() {
                 section.imageLeft ? '' : ''
               }`}
             >
-              {/* Image - квадратне, пропорційне тексту */}
+              {/* Square illustration that matches the height of the adjacent text column. */}
               <div
                 className={`relative w-full aspect-square max-h-[500px] rounded-lg overflow-hidden bg-gray-100 ${
                   section.imageLeft ? 'md:order-1' : 'md:order-2'
@@ -133,12 +133,9 @@ export default function MLPlatformSection() {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      <a
-                        href="#"
-                        className="text-gray-900 font-medium hover:text-orange-500 transition-colors"
-                      >
+                      <span className="text-gray-900 font-medium">
                         {link}
-                      </a>
+                      </span>
                     </div>
                   ))}
                 </div>

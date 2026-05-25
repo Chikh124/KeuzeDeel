@@ -15,14 +15,14 @@ export default function Testimonials() {
         'We struggled to find the **right talent** globally, but with their **automated candidate ranking**, we **quickly identified** top-notch candidates who **perfectly fit** our requirements.',
       author: 'Sarah Johnson',
       role: 'Small Business Owner, Sarah\'s Boutique',
-      image: '/images/testimonials/sarah-johnson.jpg', // Фото буде в цій папці
+      image: '/images/testimonials/sarah-johnson.jpg',
     },
   ]
 
-  // Створюємо 4 копії для безперервної каруселі (більше копій = плавніший перехід)
+  // Duplicate the testimonials array a few times to create a seamless looping carousel.
   const testimonialsList = [...testimonials, ...testimonials, ...testimonials, ...testimonials]
 
-  // Функція для форматування тексту з жирними словами
+  // Convert **bold** markers in the quote text into <strong> elements.
   const formatQuote = (text: string) => {
     const parts = text.split(/(\*\*.*?\*\*)/g)
     return parts.map((part, index) => {
@@ -47,13 +47,11 @@ export default function Testimonials() {
           <span className="block md:inline">machine learning practitioners</span>
         </motion.h2>
 
-        {/* Анімована карусель з градієнтами */}
+        {/* Animated carousel with fading edge gradients. */}
         <div className="relative overflow-hidden">
-          {/* Градієнти по краях для плавного переходу */}
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-100 to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-100 to-transparent z-10 pointer-events-none" />
-          
-          {/* Карусель */}
+
           <div className="testimonials-carousel">
             <div className="testimonials-track">
               {testimonialsList.map((testimonial, index) => (
@@ -62,7 +60,7 @@ export default function Testimonials() {
                   className="testimonial-item flex-shrink-0 w-full md:w-[90%] lg:w-[80%]"
                 >
                   <div className="grid md:grid-cols-2 gap-0 items-center bg-white rounded-2xl overflow-hidden shadow-sm">
-                    {/* Фото зліва в білій рамці */}
+                    {/* Left: testimonial photo in a white frame. */}
                     <div className="relative w-full h-[300px] md:h-[400px] bg-white p-6 md:p-8">
                       <div className="relative w-full h-full bg-gray-200 rounded-lg overflow-hidden">
                         <Image
@@ -73,7 +71,6 @@ export default function Testimonials() {
                           sizes="(max-width: 768px) 100vw, 50vw"
                           loading="lazy"
                           onError={(e) => {
-                            // Fallback якщо зображення не завантажиться
                             const target = e.target as HTMLImageElement
                             target.style.display = 'none'
                             const parent = target.parentElement
@@ -85,7 +82,7 @@ export default function Testimonials() {
                       </div>
                     </div>
                     
-                    {/* Текст справа */}
+                    {/* Right: testimonial quote and author. */}
                     <div className="p-8 md:p-12">
                       <blockquote className="text-lg md:text-xl text-gray-900 leading-relaxed mb-6">
                         &quot;{formatQuote(testimonial.quote)}&quot;
@@ -108,44 +105,29 @@ export default function Testimonials() {
 
         {/* Statistics Section */}
         <div className="mt-20">
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'rgba(161, 161, 161, 1)' }}>
+              <div className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2" style={{ color: 'rgba(161, 161, 161, 1)' }}>
                 75%
               </div>
-              <div className="text-sm font-bold" style={{ 
-                lineHeight: '30px', 
-                color: 'rgba(0, 0, 0, 1)', 
-                fontSize: '15px',
-                verticalAlign: 'bottom'
-              }}>
-                Lorem ipsum
+              <div className="text-sm font-bold text-gray-900 leading-7">
+                Faster model training
               </div>
             </div>
-            <div className="text-center border-x border-gray-200 px-8">
-              <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'rgba(161, 161, 161, 1)' }}>
+            <div className="text-center sm:border-x border-gray-200 sm:px-8">
+              <div className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2" style={{ color: 'rgba(161, 161, 161, 1)' }}>
                 4,000+
               </div>
-              <div className="text-sm font-bold" style={{ 
-                lineHeight: '30px', 
-                color: 'rgba(0, 0, 0, 1)', 
-                fontSize: '15px',
-                verticalAlign: 'bottom'
-              }}>
-                Lorem ipsum
+              <div className="text-sm font-bold text-gray-900 leading-7">
+                Models deployed in production
               </div>
             </div>
             <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'rgba(161, 161, 161, 1)' }}>
+              <div className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2" style={{ color: 'rgba(161, 161, 161, 1)' }}>
                 50+
               </div>
-              <div className="text-sm font-bold" style={{ 
-                lineHeight: '30px', 
-                color: 'rgba(0, 0, 0, 1)', 
-                fontSize: '15px',
-                verticalAlign: 'bottom'
-              }}>
-                Lorem ipsum
+              <div className="text-sm font-bold text-gray-900 leading-7">
+                Enterprise customers worldwide
               </div>
             </div>
           </div>
