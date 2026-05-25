@@ -56,26 +56,25 @@ export default function ManufacturingSection() {
         width: `${totalWidth}px`,
       })
 
-      // Розраховуємо end так, щоб презентація закінчувалась рівно на останньому слайді
-      // і не було довгого пустого фону після неї
+      // Довжина пінованої лінії скролу. Множник керує тим, наскільки "повільно" відчувається скрол:
+      // більше значення = довше треба прокручувати, щоб пройти всі слайди = повільніший перехід.
       const sectionHeight = section.offsetHeight || 600
-      // Скрол закінчується рівно після останнього слайду без зайвого простору
-      const scrollDistance = sectionHeight * (slides.length - 1)
+      const scrollDistance = sectionHeight * (slides.length - 1) * 1.2
 
       let scrollTrigger: typeof ScrollTrigger | null = null
 
       // Створюємо анімацію горизонтального скролу
+      // Використовуємо `x` у пікселях замість `xPercent`, бо xPercent рахується від ВЛАСНОЇ ширини контейнера
+      // (= slides.length * 100vw), що призводить до перекручування і пустого простору в кінці.
       const scrollTween = gsap.to(slidesContainer, {
-        // Керуємо тим, де закінчується презентація по горизонталі.
-        // Презентація закінчується на повному русі, щоб не було пустого фону
-        xPercent: -100 * (slides.length - 1),
+        x: () => -(slides.length - 1) * window.innerWidth,
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
           end: () => `+=${scrollDistance}`,
           pin: true,
-          scrub: 1.2, // Плавний, але без великої інерції — прокрут контролюється коліщатком
+          scrub: 2, // Більше згладжування — слайди змінюються повільніше та плавніше
           anticipatePin: 1,
           pinSpacing: true,
           invalidateOnRefresh: true,

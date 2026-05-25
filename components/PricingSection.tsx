@@ -207,15 +207,16 @@ export default function PricingSection() {
                 </ul>
               </div>
 
-              <button
-                className={`w-full py-3 rounded-lg font-semibold transition ${
+              <a
+                href="/contact"
+                className={`w-full py-3 rounded-lg font-semibold transition text-center block ${
                   plan.popular
                     ? 'bg-white text-black hover:bg-gray-100'
                     : 'bg-black text-white hover:bg-gray-900'
                 }`}
               >
                 {plan.cta}
-              </button>
+              </a>
             </motion.div>
           ))}
         </div>

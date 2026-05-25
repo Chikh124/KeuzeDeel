@@ -31,7 +31,7 @@ export default function Navbar() {
   ]
 
   const supportItems = [
-    { label: 'Customer Support', href: '#' },
+    { label: 'Customer Support', href: '/contact' },
     { label: 'Technical Assistance', href: '#' },
     { label: 'Sales Inquiries', href: '/contact' },
   ]

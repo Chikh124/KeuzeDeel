@@ -29,29 +29,43 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-white" ref={ref}>
-      {/* Градієнтна куля на фоні */}
-      <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'visible' }}>
-        <div className="absolute top-[48%] left-1/2 w-[300px] h-[300px] md:w-[350px] md:h-[350px] rounded-full animated-gradient-orb" style={{ transform: 'translate(-50%, -50%)' }} />
+    <section className="relative py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-[#fafafa] overflow-hidden" ref={ref}>
+      {/* Framer spinning orb — blue tones */}
+      <div
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        style={{ overflow: 'visible' }}
+        aria-hidden="true"
+      >
+        <div className="framer-orb-stack" style={{ width: '600px', height: '600px' }}>
+          <div className="framer-orb framer-orb-1">
+            <div className="framer-orb-inner contact-framer-orb-inner-1" />
+          </div>
+          <div className="framer-orb framer-orb-2">
+            <div className="framer-orb-inner contact-framer-orb-inner-2" />
+          </div>
+          <div className="framer-orb framer-orb-3">
+            <div className="framer-orb-inner contact-framer-orb-inner-3" />
+          </div>
+        </div>
       </div>
 
-      <div className="max-w-4xl mx-auto relative z-10">
-        {/* Заголовок */}
+      <div className="max-w-3xl mx-auto relative z-10">
+        {/* Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 text-center"
+          className="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 mb-6 text-center leading-tight"
         >
           Contact our friendly team
         </motion.h2>
 
-        {/* Опис */}
+        {/* Description */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg md:text-xl text-gray-600 text-center mb-12 max-w-2xl mx-auto"
+          className="text-base md:text-lg text-gray-600 text-center mb-14 max-w-xl mx-auto leading-relaxed"
         >
           Feel free to reach out using the contact form below or via the provided contact information. We&apos;ll respond promptly to ensure you have a seamless and enjoyable experience engaging with VisionIQ. Let&apos;s connect and bring your AI aspirations to life!
         </motion.p>
@@ -62,11 +76,11 @@ export default function ContactForm() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
           onSubmit={handleSubmit}
-          className="space-y-6"
+          className="space-y-4"
         >
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1.5">
                 First Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -81,7 +95,7 @@ export default function ContactForm() {
               />
             </div>
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Last Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -98,7 +112,7 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -114,7 +128,7 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1.5">
               Company <span className="text-red-500">*</span>
             </label>
             <input
@@ -130,14 +144,14 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1.5">
               Message <span className="text-red-500">*</span>
             </label>
             <textarea
               id="message"
               name="message"
               required
-              rows={6}
+              rows={4}
               value={formData.message}
               onChange={handleChange}
               className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition resize-none"
@@ -149,7 +163,7 @@ export default function ContactForm() {
             type="submit"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full md:w-auto px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-lg text-base md:text-lg font-semibold transition-colors shadow-lg"
+            className="w-full px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-lg text-base md:text-lg font-semibold transition-colors shadow-lg mt-2"
           >
             Send Message
           </motion.button>

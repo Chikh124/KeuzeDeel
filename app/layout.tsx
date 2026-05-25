@@ -1,5 +1,18 @@
 import type { Metadata } from 'next'
+import { Bricolage_Grotesque, Inter } from 'next/font/google'
 import './globals.css'
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -61,12 +74,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${bricolage.variable} ${inter.variable}`}>
       <head>
         <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
         <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
       </head>
-      <body>{children}</body>
+      <body className="font-sans">{children}</body>
     </html>
   )
 }
